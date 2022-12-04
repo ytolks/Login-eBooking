@@ -18,7 +18,7 @@ public class RegistrationController {
     private UserService userService;
 
     @GetMapping("/list")
-   // @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<User> showUsers(){
         return userService.showAllUsers();
     }

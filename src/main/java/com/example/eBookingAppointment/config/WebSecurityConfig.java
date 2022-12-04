@@ -27,18 +27,20 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http. httpBasic();
+        http.httpBasic();
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         (requests) -> {
-                        requests.requestMatchers("/user/registration/**").permitAll();
-                      //  requests.requestMatchers("/user/list").hasAuthority("USER");
-                        requests.anyRequest().authenticated();
-                }
+                            requests.
+                                    requestMatchers("/user/registration/**").permitAll()
+                                   // .requestMatchers("/user/list").hasRole("ROLE_USER")
+                                    .anyRequest().authenticated();
+                        }
                 );
         return http.build();
     }
+
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =

@@ -25,7 +25,7 @@ public class RegistrationService {
                         request.getEmail(),
                         request.getTelephoneNumber(),
                         request.getPassword(),
-                        UserRole.USER));
+                        UserRole.ROLE_ADMIN));
     }
 
 }
