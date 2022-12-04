@@ -1,16 +1,16 @@
 package com.example.eBookingAppointment.registration;
 
-import com.example.eBookingAppointment.user.User;
-import com.example.eBookingAppointment.user.UserRole;
-import com.example.eBookingAppointment.user.UserService;
+import com.example.eBookingAppointment.entity.user.User;
+import com.example.eBookingAppointment.entity.user.UserRole;
+import com.example.eBookingAppointment.entity.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class RegistrationService {
+public class AdminRegistrationService {
 
     private final UserService userService;
     private final EmailValidator emailValidator;
@@ -27,5 +27,4 @@ public class RegistrationService {
                         request.getPassword(),
                         UserRole.ROLE_ADMIN));
     }
-
 }

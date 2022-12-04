@@ -1,4 +1,4 @@
-package com.example.eBookingAppointment.user;
+package com.example.eBookingAppointment.entity.user;
 
 public enum UserRole {
     ROLE_USER,

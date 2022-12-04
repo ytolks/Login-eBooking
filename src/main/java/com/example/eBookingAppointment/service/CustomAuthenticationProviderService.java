@@ -1,8 +1,6 @@
 package com.example.eBookingAppointment.service;
 
-import com.example.eBookingAppointment.user.User;
-import com.example.eBookingAppointment.user.UserRole;
-import com.example.eBookingAppointment.user.UserService;
+import com.example.eBookingAppointment.entity.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,8 +10,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @AllArgsConstructor

@@ -1,10 +1,7 @@
-package com.example.eBookingAppointment.user;
+package com.example.eBookingAppointment.entity.user;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +12,7 @@ import java.util.Collections;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table(
         name = "users",
@@ -35,7 +32,7 @@ public class User implements UserDetails {
     @Column (
             name="contact_number",
             nullable = false,
-            columnDefinition = "VARCHAR(13)"
+            columnDefinition = "VARCHAR(255)"
     )
     private String telephoneNumber;
     @Column (

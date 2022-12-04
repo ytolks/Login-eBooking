@@ -1,8 +1,7 @@
 package com.example.eBookingAppointment.registration.token;
 
-import com.example.eBookingAppointment.user.User;
+import com.example.eBookingAppointment.entity.user.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,7 +30,7 @@ public class ConfirmationToken {
     )
     private LocalDateTime dateExpiredAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(
             nullable = false,
             name = "user_id"

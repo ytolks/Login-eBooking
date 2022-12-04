@@ -1,4 +1,5 @@
-package com.example.eBookingAppointment.user;
+package com.example.eBookingAppointment.entity.user;
+import com.example.eBookingAppointment.registration.AdminRegistrationService;
 import com.example.eBookingAppointment.registration.token.ConfirmationToken;
 import com.example.eBookingAppointment.registration.token.ConfirmationTokenService;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,9 +33,9 @@ public class UserService implements UserDetailsService {
     public String signUpUser(User user) {
         boolean exists = userRepository.findUserByEmail(user.getEmail()).isPresent();
 
-        if (exists) {
-            throw new IllegalStateException("email already exists");
-        }
+//        if (exists) {
+//            throw new IllegalStateException("email already exists");
+//        }
 
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -49,11 +51,37 @@ public class UserService implements UserDetailsService {
         );
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
-        return "it works indeed";
+        return "signup worked";
     }
 
 
     public List<User> showAllUsers(){
        return userRepository.findAll();
+    }
+
+    public User findUserById(Long id){
+        Optional<User> userOptional = userRepository.findById(id);
+                User user = null;
+        if(userOptional.isPresent()){
+            user=userOptional.get();
+        }
+        else {
+            throw new UsernameNotFoundException("user not found by id" + id);
+        }
+        return user;
+    }
+
+    public void updateUserDataById(User updatedUser, Long id){
+//        Optional<User> userOptional = userRepository.findById(id);
+//        userOptional.stream()
+//                .filter(user -> user.getId().equals(id))
+//                .findFirst()
+//                .map(user -> {
+//                   user.setEmail(updatedUser.getEmail());
+//                    user.setTelephoneNumber(updatedUser.getTelephoneNumber());
+//                    user.setPassword(updatedUser.getPassword());
+//                    user.setUserRole(updatedUser.getUserRole());
+//                    return signUpUser(updatedUser);
+//                });
     }
 }
