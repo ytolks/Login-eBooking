@@ -33,9 +33,9 @@ public class UserService implements UserDetailsService {
     public String signUpUser(User user) {
         boolean exists = userRepository.findUserByEmail(user.getEmail()).isPresent();
 
-//        if (exists) {
-//            throw new IllegalStateException("email already exists");
-//        }
+        if (exists) {
+            throw new IllegalStateException("email already exists");
+        }
 
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -72,16 +72,20 @@ public class UserService implements UserDetailsService {
     }
 
     public void updateUserDataById(User updatedUser, Long id){
-//        Optional<User> userOptional = userRepository.findById(id);
-//        userOptional.stream()
-//                .filter(user -> user.getId().equals(id))
-//                .findFirst()
-//                .map(user -> {
-//                   user.setEmail(updatedUser.getEmail());
-//                    user.setTelephoneNumber(updatedUser.getTelephoneNumber());
-//                    user.setPassword(updatedUser.getPassword());
-//                    user.setUserRole(updatedUser.getUserRole());
-//                    return signUpUser(updatedUser);
-//                });
+        Optional<User> userOptional = userRepository.findById(id);
+        userOptional.stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst()
+                .map(user -> {
+                   user.setEmail(updatedUser.getEmail());
+                    user.setTelephoneNumber(updatedUser.getTelephoneNumber());
+                    user.setPassword(updatedUser.getPassword());
+                    user.setUserRole(updatedUser.getUserRole());
+                        return userRepository.save(updatedUser);
+                }).orElseGet(()->{
+                        updatedUser.setId(id);
+                        return  userRepository.save(updatedUser);}
+
+                );
     }
 }
