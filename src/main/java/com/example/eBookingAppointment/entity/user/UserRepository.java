@@ -11,9 +11,4 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
     Optional<User> findUserByEmail(String email);
-
-//    @Modifying
-//    @Query("update User u set u.telephoneNumber=:telephoneNumber where u.id =:id")
-//    void updateContactInfoById(@Param(value = "telephoneNumber") String telephoneNumber,
-//                         @Param(value = "id") Long Id);
 }

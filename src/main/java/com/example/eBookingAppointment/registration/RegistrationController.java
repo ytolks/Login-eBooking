@@ -44,7 +44,7 @@ public class RegistrationController {
 
     @PostMapping(path = "user/registration")
     public String register(@RequestBody RegistrationRequest request){
-        return adminRegistrationService.register(request);
+        return adminRegistrationService.registerAdmin(request);
     }
 
     @PutMapping(path="admin/update/user/{id}")

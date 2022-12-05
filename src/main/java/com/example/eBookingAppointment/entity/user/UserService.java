@@ -1,7 +1,10 @@
 package com.example.eBookingAppointment.entity.user;
-import com.example.eBookingAppointment.registration.AdminRegistrationService;
+
+import com.example.eBookingAppointment.registration.EmailValidator;
+import com.example.eBookingAppointment.registration.RegistrationRequest;
 import com.example.eBookingAppointment.registration.token.ConfirmationToken;
 import com.example.eBookingAppointment.registration.token.ConfirmationTokenService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,9 +23,10 @@ public class UserService implements UserDetailsService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
+    private UserRepository userRepository;
 
     private final static String USER_NOT_FOUND = "user with email %s not found";
-    private UserRepository userRepository;
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -41,9 +45,9 @@ public class UserService implements UserDetailsService {
         user.setPassword(encodedPassword);
         userRepository.save(user);
 
-        String token =  UUID.randomUUID().toString();
+        String token = UUID.randomUUID().toString();
 
-        ConfirmationToken confirmationToken= new ConfirmationToken(
+        ConfirmationToken confirmationToken = new ConfirmationToken(
                 token,
                 LocalDateTime.now(),
                 LocalDateTime.now().plusMinutes(15),
@@ -54,38 +58,34 @@ public class UserService implements UserDetailsService {
         return "signup worked";
     }
 
-
-    public List<User> showAllUsers(){
-       return userRepository.findAll();
+    public List<User> showAllUsers() {
+        return userRepository.findAll();
     }
 
-    public User findUserById(Long id){
+    public User findUserById(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
-                User user = null;
-        if(userOptional.isPresent()){
-            user=userOptional.get();
-        }
-        else {
+        User user = null;
+        if (userOptional.isPresent()) {
+            user = userOptional.get();
+        } else {
             throw new UsernameNotFoundException("user not found by id" + id);
         }
         return user;
     }
 
-    public void updateUserDataById(User updatedUser, Long id){
+    @Transactional
+    public void updateUserDataById(User updatedUser, Long id) {
         Optional<User> userOptional = userRepository.findById(id);
         userOptional.stream()
                 .filter(user -> user.getId().equals(id))
                 .findFirst()
                 .map(user -> {
-                   user.setEmail(updatedUser.getEmail());
+                    user.setEmail(updatedUser.getEmail());
                     user.setTelephoneNumber(updatedUser.getTelephoneNumber());
-                    user.setPassword(updatedUser.getPassword());
+                    user.setPassword(bCryptPasswordEncoder.encode(updatedUser.getPassword()));
                     user.setUserRole(updatedUser.getUserRole());
-                        return userRepository.save(updatedUser);
-                }).orElseGet(()->{
-                        updatedUser.setId(id);
-                        return  userRepository.save(updatedUser);}
-
-                );
+                    return userRepository.save(user);
+                });
     }
 }
+

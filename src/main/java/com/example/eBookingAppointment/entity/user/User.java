@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -12,7 +13,7 @@ import java.util.Collections;
 @Getter
 @Setter
 @AllArgsConstructor
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(
         name = "users",
@@ -24,24 +25,25 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (
+    @Column(
             nullable = false,
-            columnDefinition = "VARCHAR(50)"
+            columnDefinition = "TEXT"
     )
     private String email;
-    @Column (
-            name="contact_number",
+    @Column(
+            name = "contact_number",
             nullable = false,
-            columnDefinition = "VARCHAR(255)"
+            columnDefinition = "TEXT"
     )
     private String telephoneNumber;
-    @Column (
+    @Column(
             nullable = false,
             columnDefinition = "TEXT"
     )
     private String password;
 
     @Enumerated(EnumType.STRING)
+
     private UserRole userRole;
     private Boolean locked;
     private Boolean enabled;
@@ -59,8 +61,9 @@ public class User implements UserDetails {
                 = new SimpleGrantedAuthority(userRole.name());
         return Collections.singletonList(authority);
     }
+
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return password;
     }
 

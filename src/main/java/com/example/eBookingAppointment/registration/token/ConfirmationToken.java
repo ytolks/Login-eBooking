@@ -30,7 +30,7 @@ public class ConfirmationToken {
     )
     private LocalDateTime dateExpiredAt;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch =FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(
             nullable = false,
             name = "user_id"
