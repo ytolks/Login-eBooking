@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(path = "/")
 @AllArgsConstructor
@@ -18,40 +19,41 @@ public class RegistrationController {
     private ConfirmationTokenService confirmationTokenService;
     private UserService userService;
 
+
     @GetMapping(path = "admin/user/list")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+   // @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<User> showUsers(){
         return userService.showAllUsers();
     }
-
-    @GetMapping
-    public String welcome(){
-        return "Welcome to AlinaNails appointment resource!";
-    }
-
-    @GetMapping(path="admin/user/list/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public User findUserId(@PathVariable (value = "id") Long id){
-        return userService.findUserById(id);
-
-    }
-
-    @DeleteMapping(path="admin/user/delete/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void deleteUserById(@PathVariable (value = "id") Long id){
-        confirmationTokenService.deleteUserById(id);
-    }
-
-    @PostMapping(path = "user/registration")
-    public String register(@RequestBody RegistrationRequest request){
-        return adminRegistrationService.registerAdmin(request);
-    }
-
-    @PutMapping(path="admin/update/user/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void updateUserData(@RequestBody User user,
-                               @PathVariable(value = "id") Long id){
-        userService.updateUserDataById(user,id);
-    }
+//
+//    @GetMapping
+//    public String welcome(){
+//        return "Welcome to AlinaNails appointment resource!";
+//    }
+//
+//    @GetMapping(path="admin/user/list/{id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public User findUserId(@PathVariable (value = "id") Long id){
+//        return userService.findUserById(id);
+//
+//    }
+//
+//    @DeleteMapping(path="admin/user/delete/{id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public void deleteUserById(@PathVariable (value = "id") Long id){
+//        confirmationTokenService.deleteUserById(id);
+//    }
+//
+//    @PostMapping(path = "user/registration")
+//    public String register(@RequestBody RegistrationRequest request){
+//        return adminRegistrationService.registerAdmin(request);
+//    }
+//
+//    @PutMapping(path="admin/update/user/{id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public void updateUserData(@RequestBody User user,
+//                               @PathVariable(value = "id") Long id){
+//        userService.updateUserDataById(user,id);
+//    }
 
 }
