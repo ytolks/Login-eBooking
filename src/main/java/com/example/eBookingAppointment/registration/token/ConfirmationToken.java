@@ -48,4 +48,5 @@ public class ConfirmationToken {
         this.dateExpiredAt = dateExpiredAt;
         this.user = user;
     }
+
 }

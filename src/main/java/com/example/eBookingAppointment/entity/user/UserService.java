@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 @Service
 @AllArgsConstructor
@@ -35,9 +36,9 @@ public class UserService implements UserDetailsService {
     }
 
     public String signUpUser(User user) {
-        boolean exists = userRepository.findUserByEmail(user.getEmail()).isPresent();
+        boolean existsEmail = userRepository.findUserByEmail(user.getEmail()).isPresent();
 
-        if (exists) {
+        if (existsEmail ) {
             throw new IllegalStateException("email already exists");
         }
 

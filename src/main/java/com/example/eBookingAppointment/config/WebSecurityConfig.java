@@ -31,27 +31,17 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .cors().and()
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         (requests) -> {
                             requests.
-                                    requestMatchers("/user/registration/**","/admin/**").permitAll()
+                                    requestMatchers("/user/registration/**","/").permitAll()
                                     .anyRequest().authenticated();
                         }
                 );
-        http.formLogin();
+        http.httpBasic();
         return http.build();
     }
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(List.of("https://localhost:3000"));
-//        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
 
     @Bean
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {

@@ -1,5 +1,7 @@
 package com.example.eBookingAppointment.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,10 +42,14 @@ public class User implements UserDetails {
             nullable = false,
             columnDefinition = "TEXT"
     )
+    @JsonIgnore
     private String password;
 
     @Enumerated(EnumType.STRING)
 
+    @Column (
+            nullable = false
+    )
     private UserRole userRole;
     private Boolean locked;
     private Boolean enabled;

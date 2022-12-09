@@ -1,5 +1,6 @@
 package com.example.eBookingAppointment.registration;
 
+import com.example.eBookingAppointment.entity.user.UserRole;
 import lombok.*;
 
 @Getter
