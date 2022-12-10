@@ -1,5 +1,7 @@
 package com.example.eBookingAppointment.entity.user;
 
+import com.example.eBookingAppointment.entity.Procedure;
+import com.example.eBookingAppointment.registration.token.ConfirmationToken;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import jakarta.persistence.*;
@@ -9,8 +11,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,7 +33,7 @@ public class User implements UserDetails {
 
     @Column(
             nullable = false,
-            columnDefinition = "TEXT"
+            columnDefinition = "VARCHAR(45)"
     )
     private String email;
     @Column(
@@ -60,6 +64,28 @@ public class User implements UserDetails {
         this.password = password;
         this.userRole = userRole;
     }
+
+    @OneToMany(mappedBy = "user")
+    private List<ConfirmationToken> confirmationTokens;
+
+    @ManyToMany(
+            cascade = CascadeType.ALL
+    )
+    @JoinTable(
+            name = "appointments",
+            joinColumns = @JoinColumn(
+                    name = "user_id",
+                    foreignKey = @ForeignKey(
+                            name = "appointment_user_id")
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "procedure_id",
+                    foreignKey = @ForeignKey(
+                            name = "appointment_procedure_id")
+            )
+    )
+    private List<Procedure> procedures;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
